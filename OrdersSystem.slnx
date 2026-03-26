@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="OrdersSystem.Application/OrdersSystem.Application.csproj" />
+  <Project Path="OrdersSystem.Domain/OrdersSystem.Domain.csproj" />
+  <Project Path="OrdersSystem.Infrastructure/OrdersSystem.Infrastructure.csproj" />
+  <Project Path="OrdersSystem/OrdersSystem.csproj" />
+</Solution>
