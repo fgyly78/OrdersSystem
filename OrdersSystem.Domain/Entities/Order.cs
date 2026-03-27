@@ -5,7 +5,7 @@ using OrdersSystem.Domain.ValueObjects;
 
 namespace OrdersSystem.Domain.Entities
 {
-    public class Order : AggragateRoot
+    public class Order : AggregateRoot
     {
         private readonly List<OrderItem> _items = new();
 
