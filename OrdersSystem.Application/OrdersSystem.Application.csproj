@@ -7,7 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MediatR" Version="14.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\OrdersSystem.Domain\OrdersSystem.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Customers\Command\" />
+    <Folder Include="Customers\Queries\" />
+    <Folder Include="Orders\Queries\" />
+    <Folder Include="Orders\EventHandlers\" />
   </ItemGroup>
 
 </Project>
