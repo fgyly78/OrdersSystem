@@ -8,7 +8,7 @@ using System.Text;
 
 namespace OrdersSystem.Domain.Entities
 {
-    public class Customer : AggragateRoot
+    public class Customer : AggregateRoot
     {
         public CustomerId Id { get; private set; }
         public Email Email { get; private set; }

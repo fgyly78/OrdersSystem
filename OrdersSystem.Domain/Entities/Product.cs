@@ -7,14 +7,14 @@ using System.Text;
 
 namespace OrdersSystem.Domain.Entities
 {
-    public class Product : AggragateRoot
+    public class Product : AggregateRoot
     {
         public ProductId Id { get; private set; }
         public string Name { get; private set; }
         public string? Description { get; private set; }
         public Money Price { get; private set; }
         public int StockQuantity { get; private set; }
-        public bool IsAvailiable { get; private set; }
+        public bool IsAvailable { get; private set; }
 
         public Product() { }
 
@@ -30,7 +30,7 @@ namespace OrdersSystem.Domain.Entities
                 Name = name.Trim(),
                 Price = price,
                 StockQuantity = initialStock,
-                IsAvailiable = initialStock > 0
+                IsAvailable = initialStock > 0
             };
         }
 
@@ -43,7 +43,7 @@ namespace OrdersSystem.Domain.Entities
 
             if (StockQuantity == 0)
             {
-                IsAvailiable = false;
+                IsAvailable = false;
                 RaiseDomainEvent(new ProductOutOfStockEvent(Id, Name));
             }
         }
@@ -52,9 +52,9 @@ namespace OrdersSystem.Domain.Entities
         {
             if (quantity <= 0) throw new DomainException("Quantity must ve positive");
 
-            var wasUnavailiable = !IsAvailiable;
+            var wasUnavailiable = !IsAvailable;
             StockQuantity += quantity;
-            IsAvailiable = true;
+            IsAvailable = true;
 
             if (wasUnavailiable)
                 RaiseDomainEvent(new ProductOutOfStockEvent(Id, Name));

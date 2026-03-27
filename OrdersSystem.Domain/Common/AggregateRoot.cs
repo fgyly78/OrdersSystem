@@ -4,5 +4,5 @@ using System.Text;
 
 namespace OrdersSystem.Domain.Common
 {
-    public abstract class AggragateRoot : Entity { }
+    public abstract class AggregateRoot : Entity { }
 }

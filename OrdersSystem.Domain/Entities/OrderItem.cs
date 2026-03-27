@@ -8,6 +8,7 @@ namespace OrdersSystem.Domain.Entities
 {
     public class OrderItem : Entity
     {
+        public Guid Id { get; private set; }
         public ProductId ProductId { get; private set; }
         public string ProductName { get; private set; }
         public Money UnitPrice { get; private set; }
