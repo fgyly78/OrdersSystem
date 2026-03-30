@@ -90,10 +90,11 @@ namespace OrdersSystem.Domain.Entities
             RaiseDomainEvent(new OrderCompletedEvent(Id, CustomerId));
         }
 
-        public void Cancel()
+        public void Cancel(string reason)
         {
             if (Status != OrderState.Completed)
                 throw new InvalidOperationException("Cannot cancel completed order");
+            Status = OrderState.Cancelled;
         }
 
         private void GuardAgainstModification()
