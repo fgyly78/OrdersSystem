@@ -73,7 +73,7 @@ namespace OrdersSystem.Domain.Entities
         public void Pay()
         {
             if (Status != OrderState.Created)
-                throw new InvalidOperationException($"Cannot pat order in state {Status}");
+                throw new InvalidOperationException($"Cannot pay order in state {Status}");
             if (!_items.Any()) throw new InvalidOperationException("Cannot pay empty order");
 
             Status = OrderState.Paid;
@@ -92,9 +92,10 @@ namespace OrdersSystem.Domain.Entities
 
         public void Cancel(string reason)
         {
-            if (Status != OrderState.Completed)
+            if (Status == OrderState.Completed)
                 throw new InvalidOperationException("Cannot cancel completed order");
-            Status = OrderState.Cancelled;
+
+            else Status = OrderState.Cancelled;
         }
 
         private void GuardAgainstModification()
