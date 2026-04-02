@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace OrdersSystem.Infrastructure
+namespace OrdersSystem.Infrastructure.Repositories
 {
     public class OrderRepository : IOrderRepository
     {

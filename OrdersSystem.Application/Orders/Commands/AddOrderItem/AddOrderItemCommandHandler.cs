@@ -32,6 +32,7 @@ namespace OrdersSystem.Application.Orders.Commands.AddOrderItem
             order.AddItem(productId, command.ProductName, money, command.Quantity);
 
             await _orderRepository.UpdateAsync(order, ct);
+            await _unitOfWork.SaveChangesAsync(ct);
         }
     }
 }

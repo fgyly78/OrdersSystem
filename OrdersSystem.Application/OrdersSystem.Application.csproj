@@ -15,7 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Customers\Command\" />
     <Folder Include="Customers\Queries\" />
     <Folder Include="Orders\EventHandlers\" />
   </ItemGroup>
