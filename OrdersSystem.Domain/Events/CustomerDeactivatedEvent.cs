@@ -8,3 +8,4 @@ namespace OrdersSystem.Domain.Events
 {
     public record CustomerDeactivatedEvent(CustomerId CustomerId) : IDomainEvent;
 }
+ 

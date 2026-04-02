@@ -9,7 +9,7 @@ using OrdersSystem.Application.Orders.Queries.GetOrderById;
 using OrdersSystem.Domain.Entities;
 using OrdersSystem.Domain.ValueObjects;
 using OrdersSystem.Infrastructure;
-using OrdersSystem.Requests;
+using OrdersSystem.Requests.Ordrers;
 
 namespace OrdersSystem.Controllers
 {
@@ -24,9 +24,10 @@ namespace OrdersSystem.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost("Create")]
-        public async Task<IActionResult> CreateOrder([FromBody] CreateOrderCommand command)
+        [HttpPost("{id}/Create")]
+        public async Task<IActionResult> CreateOrder(Guid id)
         {
+            var command = new CreateOrderCommand(id);
             var orderId = await _mediator.Send(command);
             return Ok(orderId);
         }
