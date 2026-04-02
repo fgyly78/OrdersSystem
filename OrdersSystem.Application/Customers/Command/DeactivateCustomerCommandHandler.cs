@@ -9,26 +9,23 @@ using System.Text;
 
 namespace OrdersSystem.Application.Customers.Command
 {
-    public class UpdateCustomerAddressCommandHandler : IRequestHandler<UpdateCustomerAddresCommand>
+    public class DeactivateCustomerCommandHandler : IRequestHandler<DeactivateCustomerCommand>
     {
         private readonly ICustomerRepository _customerRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public UpdateCustomerAddressCommandHandler(
-            ICustomerRepository customerRepository,
-            IUnitOfWork unitOfWork)
+        public DeactivateCustomerCommandHandler(ICustomerRepository customerRepository, IUnitOfWork unitOfWork)
         {
             _customerRepository = customerRepository;
             _unitOfWork = unitOfWork;
         }
 
-        public async Task Handle(UpdateCustomerAddresCommand command, CancellationToken ct)
+        public async Task Handle(DeactivateCustomerCommand command, CancellationToken ct)
         {
-            var address = new Address(command.Street, command.City, command.Country, command.PostalCode);
             var customer = await _customerRepository.GetByIdAsync(new CustomerId(command.CustomerId), ct);
             if (customer is null) throw new DomainException("Customer not found");
 
-            customer.UpdateAddress(address);
+            customer.Deactivate();
 
             await _customerRepository.UpdateAsync(customer, ct);
             await _unitOfWork.SaveChangesAsync(ct);
