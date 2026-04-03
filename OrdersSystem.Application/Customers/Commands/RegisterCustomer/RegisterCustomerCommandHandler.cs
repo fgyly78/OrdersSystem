@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace OrdersSystem.Application.Customers.Command
+namespace OrdersSystem.Application.Customers.Commands.RegisterCustomer
 {
     public class RegisterCustomerCommandHandler : IRequestHandler<RegisterCustomerCommand, Guid>
     {

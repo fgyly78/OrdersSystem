@@ -10,7 +10,7 @@ using System.Text;
 
 namespace OrdersSystem.Application.Orders.Commands.AddOrderItem
 {
-    public class AddOrderItemCommandHandler : IRequestHandler<AddOrderItemCommand>
+    public class AddOrderItemCommandHandler : IRequestHandler<AddOrderItemCommand, Unit>
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IProductRepository _productRepository;
@@ -23,7 +23,7 @@ namespace OrdersSystem.Application.Orders.Commands.AddOrderItem
             _unitOfWork = unitOfWork;
         }
 
-        public async Task Handle(AddOrderItemCommand command, CancellationToken ct)
+        public async Task<Unit> Handle(AddOrderItemCommand command, CancellationToken ct)
         {
             var product = await _productRepository.GetByIdAsync(new ProductId(command.ProductId), ct);
             if (product is null) throw new DomainException("Product not found");
@@ -37,6 +37,7 @@ namespace OrdersSystem.Application.Orders.Commands.AddOrderItem
             await _orderRepository.UpdateAsync(order, ct);
             await _productRepository.UpdateAsync(product, ct);
             await _unitOfWork.SaveChangesAsync(ct);
+            return Unit.Value;
         }
     }
 }

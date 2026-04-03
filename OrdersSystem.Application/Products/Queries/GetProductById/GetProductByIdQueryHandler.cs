@@ -7,24 +7,26 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace OrdersSystem.Application.Products.Queries
+namespace OrdersSystem.Application.Products.Queries.GetProductById
 {
-    public class GetAvailableProductsQueryHandler : IRequestHandler<GetAvailableProductsQuery, List<ProductDto>>
+    public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, ProductDto>
     {
         private readonly IProductRepository _productRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public GetAvailableProductsQueryHandler(IProductRepository productRepository, IUnitOfWork unitOfWork)
+        public GetProductByIdQueryHandler(IProductRepository productRepository, IUnitOfWork unitOfWork)
         {
             _productRepository = productRepository;
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<ProductDto>> Handle(GetAvailableProductsQuery query, CancellationToken ct)
+        public async Task<ProductDto> Handle(GetProductByIdQuery query, CancellationToken ct)
         {
-            var products = await _productRepository.GetAvailiableAsync(ct);
+            var product = await _productRepository.GetByIdAsync(new ProductId(query.ProductId), ct);
 
-            return products.Select(product => new ProductDto
+            if (product is null) throw new DomainException("Product not found");
+
+            return new ProductDto()
             {
                 Id = product.Id.Value,
                 Name = product.Name,
@@ -32,7 +34,7 @@ namespace OrdersSystem.Application.Products.Queries
                 Price = product.Price.Amount,
                 StockQuantity = product.StockQuantity,
                 IsAvailable = product.IsAvailable
-            }).ToList();
+            };
         }
     }
 }

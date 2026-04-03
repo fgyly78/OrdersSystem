@@ -7,9 +7,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace OrdersSystem.Application.Customers.Command
+namespace OrdersSystem.Application.Customers.Commands.DeactivateCustomer
 {
-    public class DeactivateCustomerCommandHandler : IRequestHandler<DeactivateCustomerCommand>
+    public class DeactivateCustomerCommandHandler : IRequestHandler<DeactivateCustomerCommand, Unit>
     {
         private readonly ICustomerRepository _customerRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -20,7 +20,7 @@ namespace OrdersSystem.Application.Customers.Command
             _unitOfWork = unitOfWork;
         }
 
-        public async Task Handle(DeactivateCustomerCommand command, CancellationToken ct)
+        public async Task<Unit> Handle(DeactivateCustomerCommand command, CancellationToken ct)
         {
             var customer = await _customerRepository.GetByIdAsync(new CustomerId(command.CustomerId), ct);
             if (customer is null) throw new DomainException("Customer not found");
@@ -29,6 +29,7 @@ namespace OrdersSystem.Application.Customers.Command
 
             await _customerRepository.UpdateAsync(customer, ct);
             await _unitOfWork.SaveChangesAsync(ct);
+            return Unit.Value;
         }
     }
 }

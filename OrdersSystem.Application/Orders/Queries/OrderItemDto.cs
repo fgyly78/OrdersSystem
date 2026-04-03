@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace OrdersSystem.Application.Orders.Queries.GetOrderById
+namespace OrdersSystem.Application.Orders.Queries
 {
     public class OrderItemDto
     {

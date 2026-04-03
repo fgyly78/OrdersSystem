@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Diagnostics;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http.HttpResults;
 using OrdersSystem.Domain.Common;
 
@@ -10,7 +11,12 @@ namespace OrdersSystem.Middleware
         {
             var (statusCode, message) = exception switch
             {
-                DomainException => (StatusCodes.Status400BadRequest, exception.Message),
+                DomainException => 
+                (StatusCodes.Status400BadRequest, exception.Message),
+
+                ValidationException ex => 
+                (StatusCodes.Status400BadRequest, string.Join(", ", ex.Errors.Select(e => e.ErrorMessage))),
+
                 _ => (StatusCodes.Status500InternalServerError, "Internal sever error")
             };
 

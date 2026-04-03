@@ -9,7 +9,7 @@ using System.Text;
 
 namespace OrdersSystem.Application.Orders.Commands.CancelOrder
 {
-    public class CancelOrderCommandHandler : IRequestHandler<CancelOrderCommand>
+    public class CancelOrderCommandHandler : IRequestHandler<CancelOrderCommand, Unit>
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -20,7 +20,7 @@ namespace OrdersSystem.Application.Orders.Commands.CancelOrder
             _unitOfWork = unitOfWork;
         }
 
-        public async Task Handle(CancelOrderCommand command, CancellationToken ct)
+        public async Task<Unit> Handle(CancelOrderCommand command, CancellationToken ct)
         {
             var order = await _orderRepository.GetByIdAsync(new OrderId(command.OrderId), ct);
 
@@ -30,6 +30,7 @@ namespace OrdersSystem.Application.Orders.Commands.CancelOrder
 
             await _orderRepository.UpdateAsync(order, ct);
             await _unitOfWork.SaveChangesAsync(ct);
+            return Unit.Value;
         }
 
     }

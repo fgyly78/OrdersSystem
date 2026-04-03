@@ -9,7 +9,7 @@ using System.Text;
 
 namespace OrdersSystem.Application.Products.Commands
 {
-    public class UpdatePriceCommandHandler : IRequestHandler<UpdatePriceCommand>
+    public class UpdatePriceCommandHandler : IRequestHandler<UpdatePriceCommand, Unit>
     {
         private readonly IProductRepository _productRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -21,7 +21,7 @@ namespace OrdersSystem.Application.Products.Commands
         }
 
 
-        public async Task Handle(UpdatePriceCommand command, CancellationToken ct)
+        public async Task<Unit> Handle(UpdatePriceCommand command, CancellationToken ct)
         {
             var money = new Money(command.Price, command.Currency);
             var product = await _productRepository.GetByIdAsync(new ProductId(command.ProductId), ct);
@@ -31,6 +31,7 @@ namespace OrdersSystem.Application.Products.Commands
 
             await _productRepository.UpdateAsync(product, ct);
             await _unitOfWork.SaveChangesAsync(ct);
+            return Unit.Value;
         }
     }
 }

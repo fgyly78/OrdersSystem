@@ -4,6 +4,7 @@ using OrdersSystem.Application.Orders.Commands.AddOrderItem;
 using OrdersSystem.Application.Orders.Commands.CancelOrder;
 using OrdersSystem.Application.Orders.Commands.CreateOrder;
 using OrdersSystem.Application.Orders.Commands.PayOrder;
+using OrdersSystem.Application.Orders.Queries;
 using OrdersSystem.Application.Orders.Queries.GetOrderByCustomer;
 using OrdersSystem.Application.Orders.Queries.GetOrderById;
 using OrdersSystem.Domain.Entities;

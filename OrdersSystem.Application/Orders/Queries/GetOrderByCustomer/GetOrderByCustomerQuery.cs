@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using OrdersSystem.Application.Orders.Queries.GetOrderById;
 using System;
 using System.Collections.Generic;
 using System.Text;

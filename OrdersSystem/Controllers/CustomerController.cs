@@ -1,7 +1,11 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using OrdersSystem.Application.Customers.Command;
+using OrdersSystem.Application.Customers.Commands.DeactivateCustomer;
+using OrdersSystem.Application.Customers.Commands.RegisterCustomer;
+using OrdersSystem.Application.Customers.Commands.UpdateCustomerAddress;
 using OrdersSystem.Application.Customers.Queries;
+using OrdersSystem.Application.Customers.Queries.GetCustomerById;
 using OrdersSystem.Requests;
 using OrdersSystem.Requests.Customers;
 

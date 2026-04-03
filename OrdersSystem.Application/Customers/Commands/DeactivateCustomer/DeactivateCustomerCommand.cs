@@ -1,0 +1,9 @@
+﻿using MediatR;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace OrdersSystem.Application.Customers.Commands.DeactivateCustomer
+{
+    public record DeactivateCustomerCommand(Guid CustomerId) : IRequest<Unit>;
+}

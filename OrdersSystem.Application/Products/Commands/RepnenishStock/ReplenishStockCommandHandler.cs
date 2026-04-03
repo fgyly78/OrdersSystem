@@ -7,9 +7,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace OrdersSystem.Application.Products.Commands
+namespace OrdersSystem.Application.Products.Commands.RepnenishStock
 {
-    public class ReplenishStockCommandHandler : IRequestHandler<ReplenishStockCommand>
+    public class ReplenishStockCommandHandler : IRequestHandler<ReplenishStockCommand, Unit>
     {
         private readonly IProductRepository _producRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -20,7 +20,7 @@ namespace OrdersSystem.Application.Products.Commands
             _unitOfWork = unitOfWork;
         }
 
-        public async Task Handle(ReplenishStockCommand command, CancellationToken ct)
+        public async Task<Unit> Handle(ReplenishStockCommand command, CancellationToken ct)
         {
             var product = await _producRepository.GetByIdAsync(new ProductId(command.ProductId), ct);
             if (product is null) throw new DomainException("Product not found");
@@ -29,6 +29,7 @@ namespace OrdersSystem.Application.Products.Commands
 
             await _producRepository.UpdateAsync(product, ct);
             await _unitOfWork.SaveChangesAsync(ct);
+            return Unit.Value;
         }
     }
 }

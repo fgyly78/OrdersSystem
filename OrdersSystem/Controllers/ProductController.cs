@@ -3,7 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using OrdersSystem.Application.Customers.Command;
 using OrdersSystem.Application.Products;
 using OrdersSystem.Application.Products.Commands;
+using OrdersSystem.Application.Products.Commands.CreateProduct;
+using OrdersSystem.Application.Products.Commands.RepnenishStock;
 using OrdersSystem.Application.Products.Queries;
+using OrdersSystem.Application.Products.Queries.GetAvailableProducts;
+using OrdersSystem.Application.Products.Queries.GetProductById;
 using OrdersSystem.Requests.Products;
 
 namespace OrdersSystem.Controllers

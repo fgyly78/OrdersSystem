@@ -6,5 +6,5 @@ using System.Text;
 
 namespace OrdersSystem.Application.Orders.Commands.CancelOrder
 {
-    public record CancelOrderCommand(Guid OrderId, string Reason) : IRequest;
+    public record CancelOrderCommand(Guid OrderId, string Reason) : IRequest<Unit>;
 }

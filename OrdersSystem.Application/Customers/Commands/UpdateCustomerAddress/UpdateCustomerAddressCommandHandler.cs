@@ -7,9 +7,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace OrdersSystem.Application.Customers.Command
+namespace OrdersSystem.Application.Customers.Commands.UpdateCustomerAddress
 {
-    public class UpdateCustomerAddressCommandHandler : IRequestHandler<UpdateCustomerAddresCommand>
+    public class UpdateCustomerAddressCommandHandler : IRequestHandler<UpdateCustomerAddresCommand, Unit>
     {
         private readonly ICustomerRepository _customerRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -22,7 +22,7 @@ namespace OrdersSystem.Application.Customers.Command
             _unitOfWork = unitOfWork;
         }
 
-        public async Task Handle(UpdateCustomerAddresCommand command, CancellationToken ct)
+        public async Task<Unit> Handle(UpdateCustomerAddresCommand command, CancellationToken ct)
         {
             var address = new Address(command.Street, command.City, command.Country, command.PostalCode);
             var customer = await _customerRepository.GetByIdAsync(new CustomerId(command.CustomerId), ct);
@@ -32,6 +32,7 @@ namespace OrdersSystem.Application.Customers.Command
 
             await _customerRepository.UpdateAsync(customer, ct);
             await _unitOfWork.SaveChangesAsync(ct);
+            return Unit.Value;
         }
     }
 }

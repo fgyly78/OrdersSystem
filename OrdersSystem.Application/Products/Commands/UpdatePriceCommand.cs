@@ -5,5 +5,5 @@ using System.Text;
 
 namespace OrdersSystem.Application.Products.Commands
 {
-    public record UpdatePriceCommand(Guid ProductId, decimal Price, string Currency) : IRequest;
+    public record UpdatePriceCommand(Guid ProductId, decimal Price, string Currency) : IRequest<Unit>;
 }

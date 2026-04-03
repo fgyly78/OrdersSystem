@@ -6,5 +6,5 @@ using System.Text;
 
 namespace OrdersSystem.Application.Orders.Commands.AddOrderItem
 {
-    public record AddOrderItemCommand(Guid OrderId, Guid ProductId, int Quantity) : IRequest;
+    public record AddOrderItemCommand(Guid OrderId, Guid ProductId, int Quantity) : IRequest<Unit>;
 }
