@@ -1,5 +1,6 @@
 using OrdersSystem.Application;
 using OrdersSystem.Infrastructure;
+using OrdersSystem.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,8 +10,12 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
 
 var app = builder.Build();
+
+app.UseExceptionHandler();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

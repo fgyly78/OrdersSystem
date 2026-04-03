@@ -1,0 +1,27 @@
+﻿using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http.HttpResults;
+using OrdersSystem.Domain.Common;
+
+namespace OrdersSystem.Middleware
+{
+    public class GlobalExceptionHandler : IExceptionHandler
+    {
+        public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken ct)
+        {
+            var (statusCode, message) = exception switch
+            {
+                DomainException => (StatusCodes.Status400BadRequest, exception.Message),
+                _ => (StatusCodes.Status500InternalServerError, "Internal sever error")
+            };
+
+            httpContext.Response.StatusCode = statusCode;
+
+            await httpContext.Response.WriteAsJsonAsync(new
+            {
+                error = message
+            }, ct);
+
+            return true;
+        }
+    }
+}

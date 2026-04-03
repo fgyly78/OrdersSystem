@@ -51,7 +51,7 @@ namespace OrdersSystem.Controllers
         [HttpPost("{id}/addItem")]
         public async Task<IActionResult> AddItem(Guid id, [FromBody] AddItemOrderRequest request, CancellationToken ct)
         {
-            var command = new AddOrderItemCommand(id, request.ProductId, request.ProductName, request.UnitPrice, request.Currency, request.Quantity);
+            var command = new AddOrderItemCommand(id, request.ProductId, request.Quantity);
             await _mediator.Send(command, ct);
             return Ok();
         }

@@ -13,25 +13,29 @@ namespace OrdersSystem.Application.Orders.Commands.AddOrderItem
     public class AddOrderItemCommandHandler : IRequestHandler<AddOrderItemCommand>
     {
         private readonly IOrderRepository _orderRepository;
+        private readonly IProductRepository _productRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public AddOrderItemCommandHandler(IOrderRepository orderRepository, IUnitOfWork unitOfWork)
+        public AddOrderItemCommandHandler(IOrderRepository orderRepository, IProductRepository productRepository, IUnitOfWork unitOfWork)
         {
             _orderRepository = orderRepository;
+            _productRepository = productRepository;
             _unitOfWork = unitOfWork;
         }
 
         public async Task Handle(AddOrderItemCommand command, CancellationToken ct)
         {
-            var productId = new ProductId(command.ProductId);
-            var money = new Money(command.UnitPrice, command.Currency);
+            var product = await _productRepository.GetByIdAsync(new ProductId(command.ProductId), ct);
+            if (product is null) throw new DomainException("Product not found");
 
             var order = await _orderRepository.GetByIdAsync(new OrderId(command.OrderId), ct);
             if (order is null) throw new DomainException("Order not found");
 
-            order.AddItem(productId, command.ProductName, money, command.Quantity);
+            order.AddItem(product.Id, product.Name, product.Price, command.Quantity);
+            product.ReserveStock(command.Quantity);
 
             await _orderRepository.UpdateAsync(order, ct);
+            await _productRepository.UpdateAsync(product, ct);
             await _unitOfWork.SaveChangesAsync(ct);
         }
     }
