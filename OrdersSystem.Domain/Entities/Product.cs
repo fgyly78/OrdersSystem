@@ -48,7 +48,7 @@ namespace OrdersSystem.Domain.Entities
             }
         }
 
-        public void PeplenishStock(int quantity)
+        public void ReplenishStock(int quantity)
         {
             if (quantity <= 0) throw new DomainException("Quantity must ve positive");
 
@@ -60,7 +60,7 @@ namespace OrdersSystem.Domain.Entities
                 RaiseDomainEvent(new ProductOutOfStockEvent(Id, Name));
         }
 
-        public void updatePrice(Money newPrice)
+        public void UpdatePrice(Money newPrice)
         {
             Price = newPrice;
         }

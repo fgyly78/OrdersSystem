@@ -15,16 +15,16 @@ namespace OrdersSystem.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class OrdersController : ControllerBase
+    public class OrderController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public OrdersController(IMediator mediator)
+        public OrderController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
-        [HttpPost("{id}/Create")]
+        [HttpPost("{id}/create")]
         public async Task<IActionResult> CreateOrder(Guid id, CancellationToken ct)
         {
             var command = new CreateOrderCommand(id);
@@ -32,7 +32,7 @@ namespace OrdersSystem.Controllers
             return Ok(orderId);
         }
 
-        [HttpPost("{id}/Cancel")]
+        [HttpPost("{id}/cancel")]
         public async Task<IActionResult> CancelOrder(Guid id, [FromBody] CancelOrderRequest request, CancellationToken ct)
         {
             var command = new CancelOrderCommand(id, request.Reason);
@@ -40,7 +40,7 @@ namespace OrdersSystem.Controllers
             return Ok();
         }
 
-        [HttpPost("{id}/Pay")]
+        [HttpPost("{id}/pay")]
         public async Task<IActionResult> PayOrder(Guid id, CancellationToken ct)
         {
             var command = new PayOrderCommand(id);
@@ -48,7 +48,7 @@ namespace OrdersSystem.Controllers
             return Ok();
         }
 
-        [HttpPost("{id}/AddItem")]
+        [HttpPost("{id}/addItem")]
         public async Task<IActionResult> AddItem(Guid id, [FromBody] AddItemOrderRequest request, CancellationToken ct)
         {
             var command = new AddOrderItemCommand(id, request.ProductId, request.ProductName, request.UnitPrice, request.Currency, request.Quantity);

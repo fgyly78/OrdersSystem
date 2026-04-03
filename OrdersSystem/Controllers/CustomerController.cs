@@ -18,14 +18,14 @@ namespace OrdersSystem.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost("Register")]
+        [HttpPost("register")]
         public async Task<IActionResult> RegisterCustomer([FromBody] RegisterCustomerCommand command, CancellationToken ct)
         {
             var customerId = await _mediator.Send(command, ct);
             return Ok(customerId); 
         }
 
-        [HttpPut("{id}/Address")]
+        [HttpPut("{id}/address")]
         public async Task<IActionResult> UpdateAddress(Guid id, [FromBody] UpdateCustomerAddressRequest request, CancellationToken ct)
         {
             var command = new UpdateCustomerAddresCommand(id, request.Street, request.City, request.Country, request.PostalCode);
@@ -33,7 +33,7 @@ namespace OrdersSystem.Controllers
             return Ok(command);
         }
 
-        [HttpPost("{id}/Deactivate")]
+        [HttpPost("{id}/deactivate")]
         public async Task<IActionResult> DeactivateCustomer(Guid id, CancellationToken ct)
         {
             var command = new DeactivateCustomerCommand(id);
