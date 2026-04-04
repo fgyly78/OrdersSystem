@@ -2,7 +2,9 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OrdersSystem.Application.Common.Interfaces;
+using OrdersSystem.Application.Products.Queries.GetCustomerProducts;
 using OrdersSystem.Domain.Repositories;
+using OrdersSystem.Infrastructure.ReadServices;
 using OrdersSystem.Infrastructure.Repositories;
 using System;
 using System.Collections.Generic;
@@ -22,6 +24,7 @@ namespace OrdersSystem.Infrastructure
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<ICustomerReadService, CustomerReadService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             return services;

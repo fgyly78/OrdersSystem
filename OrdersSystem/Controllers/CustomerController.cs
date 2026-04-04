@@ -6,6 +6,7 @@ using OrdersSystem.Application.Customers.Commands.RegisterCustomer;
 using OrdersSystem.Application.Customers.Commands.UpdateCustomerAddress;
 using OrdersSystem.Application.Customers.Queries;
 using OrdersSystem.Application.Customers.Queries.GetCustomerById;
+using OrdersSystem.Application.Products.Queries.GetCustomerProducts;
 using OrdersSystem.Requests;
 using OrdersSystem.Requests.Customers;
 
@@ -26,7 +27,7 @@ namespace OrdersSystem.Controllers
         public async Task<IActionResult> RegisterCustomer([FromBody] RegisterCustomerCommand command, CancellationToken ct)
         {
             var customerId = await _mediator.Send(command, ct);
-            return Ok(customerId); 
+            return Ok(customerId);
         }
 
         [HttpPut("{id}/address")]
@@ -49,7 +50,15 @@ namespace OrdersSystem.Controllers
         public async Task<ActionResult> GetCustomer(Guid id, CancellationToken ct)
         {
             var query = new GetCustomerByIdQuery(id);
-            return Ok(await  _mediator.Send(query, ct));
+            return Ok(await _mediator.Send(query, ct));
+        }
+
+        [HttpGet("{customerId}/products")]
+        public async Task<ActionResult<List<CustomerProductSummaryDto>>> GetCustomerProducts(
+            Guid customerId, CancellationToken ct)
+        {
+            var query = new GetCustomerProductsQuery(customerId);
+            return Ok(await _mediator.Send(query, ct));
         }
     }
 }

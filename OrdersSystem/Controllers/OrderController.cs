@@ -7,6 +7,7 @@ using OrdersSystem.Application.Orders.Commands.PayOrder;
 using OrdersSystem.Application.Orders.Queries;
 using OrdersSystem.Application.Orders.Queries.GetOrderByCustomer;
 using OrdersSystem.Application.Orders.Queries.GetOrderById;
+using OrdersSystem.Application.Products.Queries.GetCustomerProducts;
 using OrdersSystem.Domain.Entities;
 using OrdersSystem.Domain.ValueObjects;
 using OrdersSystem.Infrastructure;
