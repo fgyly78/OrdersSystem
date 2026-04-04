@@ -12,7 +12,7 @@ namespace OrdersSystem.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<Order> builder)
         {
-            builder.ToTable("Orders");
+            builder.ToTable("orders");
 
             builder.HasKey(o=>o.Id);
 
@@ -21,49 +21,51 @@ namespace OrdersSystem.Infrastructure.Configurations
                 .HasConversion(
                   id => id.Value,
                   value => new OrderId(value)
-                  );
+                  )
+                .HasColumnName("order_id");
 
             builder.Property(c => c.CustomerId)
                 .IsRequired()
                 .HasConversion(
                 id => id.Value,
                 value => new CustomerId(value)
-                );
+                )
+                .HasColumnName("customer_id");
 
             builder.Property(o => o.Status)
                 .IsRequired()
-                .HasConversion<string>();
+                .HasConversion<string>()
+                .HasColumnName("status");
 
             builder.OwnsOne(o => o.ShippingAddress, addressBuilder =>
             {
                 addressBuilder.Property(a => a.Street)
-                    .HasColumnName("ShippingStreet")
+                    .HasColumnName("shipping_street")
                     .IsRequired()
                     .HasMaxLength(200);
 
                 addressBuilder.Property(a => a.City)
-                    .HasColumnName("ShippingCity")
+                    .HasColumnName("shipping_city")
                     .IsRequired()
                     .HasMaxLength(100);
 
                 addressBuilder.Property(a => a.Country)
-                    .HasColumnName("ShippingCountry")
+                    .HasColumnName("shipping_country")
                     .IsRequired()
                     .HasMaxLength(3);
 
                 addressBuilder.Property(a => a.PostalCode)
-                    .HasColumnName("ShippingPostalCode")
+                    .HasColumnName("shipping_postal_code")
                     .HasMaxLength(20);
             });
 
-            builder.Property(o => o.CreatedAt).IsRequired();
+            builder.Property(o => o.CreatedAt).IsRequired()
+                .HasColumnName("created_at");
             
-          builder.Ignore(o => o.TotalPrice);
-          builder.Ignore(o => o.TotalAmount);
 
             builder.HasMany(i => i.Items)
                 .WithOne()
-                .HasForeignKey("OrderId")
+                .HasForeignKey("order_id")
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
         }

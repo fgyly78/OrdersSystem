@@ -12,7 +12,7 @@ namespace OrdersSystem.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<Customer> builder)
         {
-            builder.ToTable("Customers");
+            builder.ToTable("customers");
 
             builder.HasKey(x => x.Id);
 
@@ -20,50 +20,53 @@ namespace OrdersSystem.Infrastructure.Configurations
                 .HasConversion(
                     id => id.Value,
                     value => new CustomerId(value)
-                );
+                )
+                .HasColumnName("customer_id");
 
             builder.OwnsOne(x => x.Email, email =>
             {
                 email.Property(e => e.Value)
-                    .HasColumnName("Email")
+                    .HasColumnName("email")
                     .IsRequired()
                     .HasMaxLength(256);
             });
 
             builder.Property(x => x.FirstName)
                 .IsRequired()
-                .HasMaxLength(100);
+                .HasMaxLength(100)
+                .HasColumnName("first_name");
 
             builder.Property(x => x.LastName)
                 .IsRequired()
-                .HasMaxLength(100);
+                .HasMaxLength(100)
+                .HasColumnName("last_name");
 
             builder.OwnsOne(x => x.Address, address =>
             {
                 address.Property(a => a.Street)
-                    .HasColumnName("Street")
+                    .HasColumnName("street")
                     .HasMaxLength(200);
 
                 address.Property(a => a.City)
-                    .HasColumnName("City")
+                    .HasColumnName("city")
                     .HasMaxLength(100);
 
                 address.Property(a => a.Country)
-                    .HasColumnName("Country")
+                    .HasColumnName("country")
                     .HasMaxLength(3);
 
                 address.Property(a => a.PostalCode)
-                    .HasColumnName("PostalCode")
+                    .HasColumnName("postal_сode")
                     .HasMaxLength(20);
             });
 
             builder.Property(x => x.CreatedAt)
-                .IsRequired();
+                .IsRequired()
+                .HasColumnName("created_at");
 
             builder.Property(x => x.IsActive)
-                .IsRequired();
-
-            builder.Ignore(x => x.FullName);
+                .IsRequired()
+                .HasColumnName("is_active");
         }
     }
 }
