@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Common\Dtos\Queries\" />
     <Folder Include="Orders\EventHandlers\" />
     <Folder Include="Products\Commands\UpdatePrice\" />
   </ItemGroup>

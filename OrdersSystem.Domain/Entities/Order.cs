@@ -1,4 +1,5 @@
-﻿using OrdersSystem.Domain.Common;
+﻿using System.Text.Json.Serialization;
+using OrdersSystem.Domain.Common;
 using OrdersSystem.Domain.Enums;
 using OrdersSystem.Domain.Events;
 using OrdersSystem.Domain.ValueObjects;
@@ -20,9 +21,8 @@ namespace OrdersSystem.Domain.Entities
         public Money TotalPrice => _items.Aggregate(Money.Zero(), (sum, i) => sum.Add(i.TotalPrice));
         public int TotalAmount => _items.Sum(i => i.Quantity);
 
-
         private Order() { }
-
+        
         public static Order Create(CustomerId customerId, Address shippingAddress)
         {
             if (customerId is null)

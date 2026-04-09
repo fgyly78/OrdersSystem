@@ -10,9 +10,27 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
       - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=orders_db;Username=postgres;Password=postgres
+      - ConnectionStrings__Redis=redis:6379
     depends_on:
       db:
         condition: service_healthy
+
+    
+  redis:
+    image: redis:latest
+    container_name: orders_redis
+    ports:
+      - "6379:6379"
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: orders_rabbitmq
+    ports:
+      - "5672:5672"   # AMQP
+      - "15672:15672" # Management UI
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
 
   db:
     image: postgres:16

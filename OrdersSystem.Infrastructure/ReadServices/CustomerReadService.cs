@@ -4,6 +4,7 @@ using OrdersSystem.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using OrdersSystem.Application.Common.Interfaces.ReadServices;
 
 namespace OrdersSystem.Infrastructure.ReadServices
 {

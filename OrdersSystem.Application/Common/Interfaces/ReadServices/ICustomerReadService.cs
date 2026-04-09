@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using OrdersSystem.Application.Products.Queries.GetCustomerProducts;
 
-namespace OrdersSystem.Application.Products.Queries.GetCustomerProducts
+namespace OrdersSystem.Application.Common.Interfaces.ReadServices
 {
     public interface ICustomerReadService
     {
