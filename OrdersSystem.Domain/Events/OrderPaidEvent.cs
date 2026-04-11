@@ -6,5 +6,5 @@ using System.Text;
 
 namespace OrdersSystem.Domain.Events
 {
-    public record OrderPaidEvent(OrderId OrderId, CustomerId CustomerId, Money TotalPrice) : IDomainEvent;
+    public record OrderPaidEvent(OrderId OrderId, CustomerId CustomerId) : IDomainEvent;
 }

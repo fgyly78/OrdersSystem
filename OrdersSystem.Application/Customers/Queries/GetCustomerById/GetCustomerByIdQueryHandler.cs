@@ -7,36 +7,27 @@ using OrdersSystem.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using OrdersSystem.Application.Common.Dtos.Queries.Customers;
+using OrdersSystem.Application.Common.Interfaces.ReadServices;
 
 namespace OrdersSystem.Application.Customers.Queries.GetCustomerById
 {
     public class GetCustomerByIdQueryHandler : IRequestHandler<GetCustomerByIdQuery, CustomerDto>
     {
-        private readonly ICustomerRepository _customerRepository;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly ICustomerReadService _customerReadService;
 
-        public GetCustomerByIdQueryHandler(ICustomerRepository customerRepository, IUnitOfWork unitOfWork)
+        public GetCustomerByIdQueryHandler(ICustomerReadService customerReadService)
         {
-            _customerRepository = customerRepository;
-            _unitOfWork = unitOfWork;
+            _customerReadService = customerReadService;
         }
 
         public async Task<CustomerDto> Handle(GetCustomerByIdQuery query, CancellationToken ct)
         {
-            var customer = await _customerRepository.GetByIdAsync(new CustomerId(query.Id), ct);
+            var customer = await _customerReadService.GetByIdAsync(new CustomerId(query.Id), ct);
 
             if (customer is null) throw new DomainException("Customer not found");
 
-            return new CustomerDto
-            {
-                Id = customer.Id.Value,
-                Email = customer.Email.Value,
-                FirstName = customer.FirstName,
-                LastName = customer.LastName,
-                Address = $"{customer.Address.Street}, {customer.Address.City}, {customer.Address.Country}, {customer.Address.PostalCode}",
-                CreatedAt = customer.CreatedAt,
-                IsActive = customer.IsActive
-            };
+            return customer;
         }
     }
 }

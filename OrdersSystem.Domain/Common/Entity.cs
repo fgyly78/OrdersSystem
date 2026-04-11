@@ -13,6 +13,6 @@ namespace OrdersSystem.Domain.Common
 
         protected void RaiseDomainEvent(IDomainEvent domainEvent) => _domainEvents.Add(domainEvent);
 
-        public void CleatDomainEvents() => _domainEvents.Clear();
+        public void ClearDomainEvents() => _domainEvents.Clear();
     }
 }

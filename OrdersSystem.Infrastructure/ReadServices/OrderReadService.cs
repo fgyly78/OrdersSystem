@@ -22,7 +22,7 @@ public class OrderReadService : IOrderReadService
     
     public async Task<OrderDto?> GetByIdAsync(OrderId orderId, CancellationToken ct = default)
     {
-        var cacheKey = $"order{orderId}";
+        var cacheKey = $"order:{orderId}";
         
         var cached = await _cacheService.GetAsync<OrderDto>(cacheKey, ct);
         if (cached is not null) return cached;
@@ -35,5 +35,21 @@ public class OrderReadService : IOrderReadService
         await _cacheService.SetAsync(cacheKey, dto, TimeSpan.FromMinutes(5), ct);
 
         return dto;
+    }
+
+    public async Task<List<OrderDto>> GetByCustomerAsync(CustomerId customerId, CancellationToken ct = default)
+    {
+        var cachedKey = $"customer:{customerId}";
+
+        var cached = await _cacheService.GetAsync<List<OrderDto>>(cachedKey, ct);
+        if (cached is not null) return cached;
+
+        var orders = await _orderRepository.GetByCustomerIdAsync(customerId, ct);
+
+        var dtos = OrderMapper.MapToDtos(orders.ToList());
+        
+        await _cacheService.SetAsync(cachedKey, dtos, TimeSpan.FromMinutes(5), ct);
+        
+        return dtos;
     }
 }

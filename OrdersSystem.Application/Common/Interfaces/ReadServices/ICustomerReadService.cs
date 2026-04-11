@@ -1,4 +1,6 @@
-﻿using OrdersSystem.Application.Products.Queries.GetCustomerProducts;
+﻿using OrdersSystem.Application.Common.Dtos.Queries.Customers;
+using OrdersSystem.Application.Products.Queries.GetCustomerProducts;
+using OrdersSystem.Domain.ValueObjects;
 
 namespace OrdersSystem.Application.Common.Interfaces.ReadServices
 {
@@ -6,5 +8,7 @@ namespace OrdersSystem.Application.Common.Interfaces.ReadServices
     {
         Task<List<CustomerProductSummaryDto>> GetCustomerProductsAsync(
             Guid customerId, CancellationToken ct);
+        
+        Task<CustomerDto> GetByIdAsync(CustomerId customerId, CancellationToken ct);
     }
 }

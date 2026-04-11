@@ -21,4 +21,6 @@ public class OrderMapper
             TotalPrice = i.TotalPrice.Amount,
         }).ToList()
     };
+    
+    public static List<OrderDto> MapToDtos(List<Order> orders) => orders.Select(o => MapToDto(o)).ToList();
 }

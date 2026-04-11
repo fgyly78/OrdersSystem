@@ -78,7 +78,7 @@ namespace OrdersSystem.Domain.Entities
 
             Status = OrderState.Paid;
             PaidAt = DateTime.UtcNow;
-            RaiseDomainEvent(new OrderPaidEvent(Id, CustomerId, TotalPrice));
+            RaiseDomainEvent(new OrderPaidEvent(Id, CustomerId));
         }
 
         public void Complete()
