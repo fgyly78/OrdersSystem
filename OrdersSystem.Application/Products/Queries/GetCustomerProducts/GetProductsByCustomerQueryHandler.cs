@@ -8,16 +8,16 @@ using OrdersSystem.Application.Common.Interfaces.ReadServices;
 
 namespace OrdersSystem.Application.Products.Queries.GetCustomerProducts
 {
-    public class GetCustomerProductsQueryHandler : IRequestHandler<GetCustomerProductsQuery, List<CustomerProductSummaryDto>>
+    public class GetProductsByCustomerQueryHandler : IRequestHandler<GetProductsBuCustomerQuery, List<CustomerProductSummaryDto>>
     {
         private readonly ICustomerReadService _customerReadService;
 
-        public GetCustomerProductsQueryHandler(ICustomerReadService customerReadService)
+        public GetProductsByCustomerQueryHandler(ICustomerReadService customerReadService)
         {
             _customerReadService = customerReadService;
         }
 
-        public async Task<List<CustomerProductSummaryDto>> Handle(GetCustomerProductsQuery request, CancellationToken ct)
+        public async Task<List<CustomerProductSummaryDto>> Handle(GetProductsBuCustomerQuery request, CancellationToken ct)
         {
             var orders = await _customerReadService.GetCustomerProductsAsync(request.CustomerId, ct);
             if (orders is null || !orders.Any()) throw new DomainException("Orders not found");

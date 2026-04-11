@@ -22,34 +22,27 @@ public class OrderReadService : IOrderReadService
     
     public async Task<OrderDto?> GetByIdAsync(OrderId orderId, CancellationToken ct = default)
     {
-        var cacheKey = $"order:{orderId}";
-        
-        var cached = await _cacheService.GetAsync<OrderDto>(cacheKey, ct);
-        if (cached is not null) return cached;
-
-        var order = await _orderRepository.GetByIdAsync(orderId, ct);
-        if (order is null) return null;
-
-        var dto = OrderMapper.MapToDto(order);
-        
-        await _cacheService.SetAsync(cacheKey, dto, TimeSpan.FromMinutes(5), ct);
-
-        return dto;
+        return await _cacheService.GetOrCreateAsync(
+            $"order:{orderId}",
+            async () =>
+            {
+                var order = await _orderRepository.GetByIdAsync(orderId, ct);
+                return OrderMapper.MapToDto(order);
+            },
+            TimeSpan.FromMinutes(5),
+            ct);
     }
 
     public async Task<List<OrderDto>> GetByCustomerAsync(CustomerId customerId, CancellationToken ct = default)
     {
-        var cachedKey = $"customer:{customerId}";
-
-        var cached = await _cacheService.GetAsync<List<OrderDto>>(cachedKey, ct);
-        if (cached is not null) return cached;
-
-        var orders = await _orderRepository.GetByCustomerIdAsync(customerId, ct);
-
-        var dtos = OrderMapper.MapToDtos(orders.ToList());
-        
-        await _cacheService.SetAsync(cachedKey, dtos, TimeSpan.FromMinutes(5), ct);
-        
-        return dtos;
+        return await _cacheService.GetOrCreateAsync(
+            $"orders-customer:{customerId}",
+            async () =>
+            {
+                var orders = await _orderRepository.GetByCustomerIdAsync(customerId, ct);
+                return OrderMapper.MapToDtos(orders.ToList());
+            },
+            TimeSpan.FromMinutes(5),
+            ct);
     }
 }

@@ -5,6 +5,6 @@ using System.Text;
 
 namespace OrdersSystem.Application.Products.Queries.GetCustomerProducts
 {
-    public record GetCustomerProductsQuery(Guid CustomerId) : IRequest<List<CustomerProductSummaryDto>>;
+    public record GetProductsBuCustomerQuery(Guid CustomerId) : IRequest<List<CustomerProductSummaryDto>>;
 
 }

@@ -57,7 +57,7 @@ namespace OrdersSystem.Controllers
         public async Task<ActionResult<List<CustomerProductSummaryDto>>> GetCustomerProducts(
             Guid customerId, CancellationToken ct)
         {
-            var query = new GetCustomerProductsQuery(customerId);
+            var query = new GetProductsBuCustomerQuery(customerId);
             return Ok(await _mediator.Send(query, ct));
         }
     }
