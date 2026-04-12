@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <Folder Include="Products\Commands\UpdatePrice\" />
+    <Folder Include="Products\EventHandlers\" />
   </ItemGroup>
 
 </Project>
