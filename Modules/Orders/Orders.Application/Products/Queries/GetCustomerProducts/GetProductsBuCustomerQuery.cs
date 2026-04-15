@@ -1,0 +1,10 @@
+﻿using MediatR;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Orders.Application.Products.Queries.GetCustomerProducts
+{
+    public record GetProductsBuCustomerQuery(Guid CustomerId) : IRequest<List<CustomerProductSummaryDto>>;
+
+}

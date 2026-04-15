@@ -1,0 +1,37 @@
+﻿using MediatR;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using Orders.Application.Common.Interfaces;
+using Orders.Domain.Common;
+using Orders.Domain.Repositories;
+using Orders.Domain.ValueObjects;
+
+namespace Orders.Application.Products.Commands
+{
+    public class UpdatePriceCommandHandler : IRequestHandler<UpdatePriceCommand, Unit>
+    {
+        private readonly IProductRepository _productRepository;
+        private readonly IUnitOfWork _unitOfWork;
+
+        public UpdatePriceCommandHandler(IProductRepository productRepository, IUnitOfWork unitOfWork)
+        {
+            _productRepository = productRepository;
+            _unitOfWork = unitOfWork;
+        }
+
+
+        public async Task<Unit> Handle(UpdatePriceCommand command, CancellationToken ct)
+        {
+            var money = new Money(command.Price, command.Currency);
+            var product = await _productRepository.GetByIdAsync(new ProductId(command.ProductId), ct);
+            if (product is null) throw new DomainException("Product not found");
+
+            product.UpdatePrice(money);
+
+            await _productRepository.UpdateAsync(product, ct);
+            await _unitOfWork.SaveChangesAsync(ct);
+            return Unit.Value;
+        }
+    }
+}

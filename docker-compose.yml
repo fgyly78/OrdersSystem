@@ -3,7 +3,7 @@ services:
     image: ${DOCKER_REGISTRY-}orderssystem
     build:
       context: .
-      dockerfile: OrdersSystem/Dockerfile
+      dockerfile: Orders.Api/Dockerfile
     ports:
       - "5000:8080"
     environment:

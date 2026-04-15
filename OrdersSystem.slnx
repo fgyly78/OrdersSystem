@@ -1,6 +1,7 @@
 <Solution>
-  <Project Path="OrdersSystem.Application/OrdersSystem.Application.csproj" />
-  <Project Path="OrdersSystem.Domain/OrdersSystem.Domain.csproj" />
-  <Project Path="OrdersSystem.Infrastructure/OrdersSystem.Infrastructure.csproj" />
-  <Project Path="OrdersSystem/OrdersSystem.csproj" />
+  <Project Path="Infrastructure/Infrastructure.csproj" />
+  <Project Path="Modules/Orders/Orders.Application/Orders.Application.csproj" />
+  <Project Path="Modules/Orders/Orders.Domain/Orders.Domain.csproj" />
+  <Project Path="Modules/Orders/Orders.Infrastructure/Orders.Infrastructure.csproj" />
+  <Project Path="Orders.Api/Orders.Api.csproj" />
 </Solution>

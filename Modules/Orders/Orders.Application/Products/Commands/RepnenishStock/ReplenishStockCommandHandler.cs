@@ -1,0 +1,35 @@
+﻿using MediatR;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using Orders.Application.Common.Interfaces;
+using Orders.Domain.Common;
+using Orders.Domain.Repositories;
+using Orders.Domain.ValueObjects;
+
+namespace Orders.Application.Products.Commands.RepnenishStock
+{
+    public class ReplenishStockCommandHandler : IRequestHandler<ReplenishStockCommand, Unit>
+    {
+        private readonly IProductRepository _producRepository;
+        private readonly IUnitOfWork _unitOfWork;
+
+        public ReplenishStockCommandHandler(IUnitOfWork unitOfWork, IProductRepository producRepository)
+        {
+            _producRepository = producRepository;
+            _unitOfWork = unitOfWork;
+        }
+
+        public async Task<Unit> Handle(ReplenishStockCommand command, CancellationToken ct)
+        {
+            var product = await _producRepository.GetByIdAsync(new ProductId(command.ProductId), ct);
+            if (product is null) throw new DomainException("Product not found");
+
+            product.ReplenishStock(command.Quantity);
+
+            await _producRepository.UpdateAsync(product, ct);
+            await _unitOfWork.SaveChangesAsync(ct);
+            return Unit.Value;
+        }
+    }
+}
