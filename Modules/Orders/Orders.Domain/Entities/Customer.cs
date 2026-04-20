@@ -14,7 +14,7 @@ namespace Orders.Domain.Entities
         public Email Email { get; private set; }
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
-        public Address? Address { get; private set; }
+        public CustomerAddress? Address { get; private set; }
         public DateTime CreatedAt { get; private set; }
         public bool IsActive { get; private set; }
 
@@ -41,9 +41,9 @@ namespace Orders.Domain.Entities
             return customer;
         }
 
-        public void UpdateAddress(Address newAddress)
+        public void UpdateAddress(CustomerAddress newAddressBase)
         {
-            Address = newAddress ?? throw new DomainException("Address canot be null");
+            Address = newAddressBase ?? throw new DomainException("Address canot be null");
         }
 
         public void Deactivate()

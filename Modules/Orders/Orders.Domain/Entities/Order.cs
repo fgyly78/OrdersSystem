@@ -13,7 +13,7 @@ namespace Orders.Domain.Entities
         public OrderId Id { get; private set; }
         public CustomerId CustomerId { get; private set; }
         public OrderState Status { get; private set; }
-        public Address ShippingAddress { get; private set; }
+        public ShippingAddress ShippingAddressBase { get; private set; }
         public DateTime CreatedAt { get; private set; }
         public DateTime? PaidAt { get; private set; }
         public IReadOnlyCollection<OrderItem> Items => _items.AsReadOnly();
@@ -23,18 +23,18 @@ namespace Orders.Domain.Entities
 
         private Order() { }
         
-        public static Order Create(CustomerId customerId, Address shippingAddress)
+        public static Order Create(CustomerId customerId, ShippingAddress shippingAddressBase)
         {
             if (customerId is null)
                 throw new DomainException("CustomerId is required");
-            if (shippingAddress is null)
+            if (shippingAddressBase is null)
                 throw new DomainException("shippingAddress is required");
 
             var order = new Order
             {
                 Id = OrderId.New(),
                 CustomerId = customerId,
-                ShippingAddress = shippingAddress,
+                ShippingAddressBase = shippingAddressBase,
                 Status = OrderState.Created,
                 CreatedAt = DateTime.UtcNow,
             };

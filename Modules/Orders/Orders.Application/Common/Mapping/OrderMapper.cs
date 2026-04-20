@@ -12,7 +12,7 @@ public class OrderMapper
         Status = order.Status.ToString(),
         CreatedAt = order.CreatedAt,
         TotalPrice = order.TotalPrice.Amount,
-        ShippingAddress = $"{order.ShippingAddress.Street}, {order.ShippingAddress.City}, {order.ShippingAddress.Country}, {order.ShippingAddress.PostalCode}",
+        ShippingAddress = $"{order.ShippingAddressBase.Street}, {order.ShippingAddressBase.City}, {order.ShippingAddressBase.Country}, {order.ShippingAddressBase.PostalCode}",
         Items = order.Items.Select(i => new OrderItemDto
         {
             ProductName = i.ProductName,

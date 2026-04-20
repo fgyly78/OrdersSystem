@@ -24,7 +24,7 @@ namespace Orders.Application.Customers.Commands.UpdateCustomerAddress
 
         public async Task<Unit> Handle(UpdateCustomerAddresCommand command, CancellationToken ct)
         {
-            var address = new Address(command.Street, command.City, command.Country, command.PostalCode);
+            var address = new CustomerAddress(command.Street, command.City, command.Country, command.PostalCode);
             var customer = await _customerRepository.GetByIdAsync(new CustomerId(command.CustomerId), ct);
             if (customer is null) throw new DomainException("Customer not found");
 

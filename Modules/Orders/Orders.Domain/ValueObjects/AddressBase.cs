@@ -5,14 +5,14 @@ using Orders.Domain.Common;
 
 namespace Orders.Domain.ValueObjects
 {
-    public record Address
+    public record AddressBase
     {
         public string Street { get; }
         public string City { get; }
         public string Country { get; }
         public string PostalCode { get; }
 
-        public Address(string street, string city, string country, string postalCode)
+        public AddressBase(string street, string city, string country, string postalCode)
         {
             if (string.IsNullOrWhiteSpace(street)) throw new DomainException("Street is required");
             if (string.IsNullOrWhiteSpace(city)) throw new DomainException("City is required");

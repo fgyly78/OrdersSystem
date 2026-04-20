@@ -37,7 +37,7 @@ namespace Orders.Infrastructure.Configurations
                 .HasConversion<string>()
                 .HasColumnName("status");
 
-            builder.OwnsOne(o => o.ShippingAddress, addressBuilder =>
+            builder.OwnsOne(o => o.ShippingAddressBase, addressBuilder =>
             {
                 addressBuilder.Property(a => a.Street)
                     .HasColumnName("shipping_street")
