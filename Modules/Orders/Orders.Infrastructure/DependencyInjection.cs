@@ -1,12 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Orders.Application.Products.Queries.GetCustomerProducts;
+
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Infrastructure.Messaging;
 using Orders.Application.Common.Interfaces;
+using Orders.Application.Common.Interfaces.Messaging;
 using Orders.Application.Common.Interfaces.ReadServices;
 using Orders.Domain.Repositories;
 using Orders.Infrastructure.Cashing;
@@ -18,7 +20,7 @@ namespace Orders.Infrastructure
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddInfrastructure(
+        public static IServiceCollection AddOrdersInfrastructure(
             this IServiceCollection services,
             IConfiguration configuration)
         {

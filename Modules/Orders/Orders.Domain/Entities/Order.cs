@@ -39,7 +39,7 @@ namespace Orders.Domain.Entities
                 CreatedAt = DateTime.UtcNow,
             };
 
-            order.RaiseDomainEvent(new OrderCreatedEvent(order.Id, customerId));
+            order.RaiseDomainEvent(new OrderCreatedEvent(order.Id.Value, DateTime.UtcNow));
             return order;
         }
 
@@ -94,9 +94,10 @@ namespace Orders.Domain.Entities
         {
             if (Status == OrderState.Completed)
                 throw new InvalidOperationException("Cannot cancel completed order");
-
-            else Status = OrderState.Cancelled;
-        }
+            
+            Status = OrderState.Cancelled;
+            RaiseDomainEvent(new OrderCancelledEvent(Id, CustomerId, reason));
+        } 
 
         private void GuardAgainstModification()
         {

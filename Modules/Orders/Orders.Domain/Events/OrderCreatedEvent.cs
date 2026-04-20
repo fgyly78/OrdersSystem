@@ -6,5 +6,5 @@ using Orders.Domain.ValueObjects;
 
 namespace Orders.Domain.Events
 {
-    public record OrderCreatedEvent(OrderId OrderId, CustomerId CustomerId) : IDomainEvent;
+    public record OrderCreatedEvent(Guid OrderId, DateTime CreatedAt) : IDomainEvent;
 }

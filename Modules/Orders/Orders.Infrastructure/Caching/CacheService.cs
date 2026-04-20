@@ -13,9 +13,10 @@ public class CacheService : ICacheService
 
     private static readonly ConcurrentDictionary<string, SemaphoreSlim> _locks = new();
 
-    public CacheService(IDistributedCache distributedCache)
+    public CacheService(IDistributedCache distributedCache, ILogger<CacheService> logger)
     {
         _cache = distributedCache;
+        _logger = logger ??  throw new ArgumentNullException(nameof(logger));
     }
 
 
