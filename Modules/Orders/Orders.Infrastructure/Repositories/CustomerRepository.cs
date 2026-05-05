@@ -28,7 +28,7 @@ namespace Orders.Infrastructure.Repositories
                 .FirstOrDefaultAsync(x => x.Email == email, ct);
         }
 
-        public async Task<Customer?> GetByIdAsync(CustomerId id, CancellationToken ct = default)
+        public async Task<Customer> GetByIdAsync(CustomerId id, CancellationToken ct = default)
         {
             return await _appDbContext.Customers
                 .FirstOrDefaultAsync(x => x.Id == id, ct);

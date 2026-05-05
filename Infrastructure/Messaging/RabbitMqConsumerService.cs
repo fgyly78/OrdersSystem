@@ -1,8 +1,12 @@
 using System.Text;
+using System.Text.Json;
+using Contracts.Events;
 using Contracts.Messaging.Configs;
 using Contracts.Messaging.Queues;
+using Infrastructure.Integration_Event_Handlers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Orders.Domain.Events;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
@@ -14,13 +18,15 @@ public class RabbitMqConsumerService : BackgroundService
     private readonly IConfiguration _config;
     private IConnection _connection;
     private IModel _channel;
+    private readonly OrderCreatedIntegrationEventHandler _handler;
 
-    public RabbitMqConsumerService(IConfiguration config)
+    public RabbitMqConsumerService(IConfiguration config,  OrderCreatedIntegrationEventHandler handler)
     {
         _config = config;
+        _handler = handler;
     }
     
-    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    protected override async Task ExecuteAsync(CancellationToken ct)
     {
         var host = _config["RabbitMq:Host"];
         var port = int.Parse(_config["RabbitMq:Port"]!);
@@ -36,7 +42,7 @@ public class RabbitMqConsumerService : BackgroundService
         };
 
         // retry loop
-        while (!stoppingToken.IsCancellationRequested)
+        while (!ct.IsCancellationRequested)
         {
             try
             {
@@ -47,7 +53,7 @@ public class RabbitMqConsumerService : BackgroundService
             catch
             {
                 Console.WriteLine("RabbitMQ not ready, retrying...");
-                await Task.Delay(3000, stoppingToken);
+                await Task.Delay(3000, ct);
             }
         }
 
@@ -66,12 +72,25 @@ public class RabbitMqConsumerService : BackgroundService
 
         var consumer = new EventingBasicConsumer(_channel);
 
-        consumer.Received += (model, ea) =>
+        consumer.Received += async (model, ea) =>
         {
-            var body = ea.Body.ToArray();
-            var message = Encoding.UTF8.GetString(body);
+            try
+            {
+                var body = ea.Body.ToArray();
+                var message = Encoding.UTF8.GetString(body);
+                var evt = JsonSerializer.Deserialize<OrderCreatedIntegrationEvent>(message);
 
-            Console.WriteLine($"[x] Received: {message}");
+                if (evt is null) return;
+
+                await _handler.Handle(evt, ct);
+
+                _channel.BasicAck(ea.DeliveryTag, false);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+                _channel.BasicNack(ea.DeliveryTag, false, true);
+            }
         };
 
         _channel.BasicConsume(
@@ -80,7 +99,7 @@ public class RabbitMqConsumerService : BackgroundService
             consumer: consumer);
 
         // держим сервис живым
-        await Task.Delay(Timeout.Infinite, stoppingToken);
+        await Task.Delay(Timeout.Infinite, ct);
     }
 
 }
